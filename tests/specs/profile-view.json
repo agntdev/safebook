@@ -1,0 +1,20 @@
+[
+  {
+    "name": "My Progress",
+    "steps": [
+      {
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "View quiz scores and learning streak"
+            }
+          }
+        ],
+        "send": {
+          "callback": "profile:view"
+        }
+      }
+    ]
+  }
+]
