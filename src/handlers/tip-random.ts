@@ -1,17 +1,25 @@
 import { Composer } from "grammy";
+import type { Ctx } from "../bot.js";
+import { inlineButton, inlineKeyboard } from "../toolkit/index.js";
+import { getRandomTip, TIP_CATEGORIES } from "../data.js";
 
-// SCAFFOLD — generated from the bot blueprint BEFORE the agent runs.
-// Keep a LIVE registration (.command / .callbackQuery / …) so this feature is
-// never an empty stub. Replace the reply body with real logic + copy; if you
-// change the user-facing text, update tests/specs to match EXACTLY.
-// Do NOT rewrite src/bot.ts — buildBot() already auto-loads this module.
-// Menu: wire this into /start via registerMainMenuItem({ label: "Random Tip", data: "tip:random" }) if the toolkit exposes it.
-
-const composer = new Composer();
+const composer = new Composer<Ctx>();
 
 composer.callbackQuery("tip:random", async (ctx) => {
   await ctx.answerCallbackQuery();
-  await ctx.reply("Receive a random security tip");
+  const tip = getRandomTip();
+  const cat = TIP_CATEGORIES[tip.category];
+  const text =
+    `${cat.emoji} ${tip.content}\n\n` +
+    `💡 Why it matters: ${tip.explanation}\n\n` +
+    `👉 Next steps: ${tip.nextSteps}`;
+
+  await ctx.reply(text, {
+    reply_markup: inlineKeyboard([
+      [inlineButton("🔄 Another tip", "tip:random")],
+      [inlineButton("⬅️ Back to menu", "menu:main")],
+    ]),
+  });
 });
 
 export default composer;

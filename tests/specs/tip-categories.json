@@ -1,19 +1,34 @@
 [
   {
-    "name": "Browse Tips",
+    "name": "Browse Tips shows category list",
     "steps": [
       {
+        "send": { "callback": "tip:categories" },
         "expect": [
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Select tips by category (Account, Phishing, Passwords, etc.)"
+              "text": "📖 Choose a topic to explore security tips:"
             }
           }
-        ],
-        "send": {
-          "callback": "tip:categories"
-        }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "selecting a category shows its tips",
+    "steps": [
+      {
+        "send": { "callback": "tip:categories" },
+        "expect": [
+          { "method": "sendMessage" }
+        ]
+      },
+      {
+        "send": { "callback": "tip:cat:account" },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "🔒 Account Security\n\n1. Enable two-factor authentication on your Facebook account for an extra layer of security.\n   💡 Two-factor authentication (2FA) requires a code from your phone in addition to your password. Even if someone steals your password, they can't get in without your phone.\n\n2. Be cautious of friend requests from people you don't know — fake profiles are common.\n   💡 Scammers create fake profiles to gather personal information or send phishing messages. Only accept friend requests from people you actually know.\n\n3. Use Facebook's Login Alerts to get notified of unrecognized logins.\n   💡 Login Alerts send you a notification when someone accesses your account from an unfamiliar device or browser, so you can act quickly if it's not you." } }
+        ]
       }
     ]
   }

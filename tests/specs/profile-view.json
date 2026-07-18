@@ -1,19 +1,57 @@
 [
   {
-    "name": "My Progress",
+    "name": "My Progress shows status for user with tracking enabled",
     "steps": [
       {
+        "send": { "text": "/start" },
+        "expect": [
+          { "method": "sendMessage" }
+        ]
+      },
+      {
+        "send": { "callback": "onboarding:yes" },
+        "expect": [
+          { "method": "editMessageText" }
+        ]
+      },
+      {
+        "send": { "callback": "profile:view" },
         "expect": [
           {
             "method": "sendMessage",
             "payload": {
-              "text": "View quiz scores and learning streak"
+              "text": "📊 Your progress\n\nNo quizzes taken yet.\n\nTap 🧠 Take Quiz to get started!"
             }
           }
-        ],
-        "send": {
-          "callback": "profile:view"
-        }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "My Progress shows tracking off for user without consent",
+    "steps": [
+      {
+        "send": { "text": "/start" },
+        "expect": [
+          { "method": "sendMessage" }
+        ]
+      },
+      {
+        "send": { "callback": "onboarding:no" },
+        "expect": [
+          { "method": "editMessageText" }
+        ]
+      },
+      {
+        "send": { "callback": "profile:view" },
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "📊 Progress tracking is off.\n\nTurn it on to see your quiz scores and learning streak."
+            }
+          }
+        ]
       }
     ]
   }
