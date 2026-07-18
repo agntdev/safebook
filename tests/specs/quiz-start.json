@@ -1,19 +1,98 @@
 [
   {
-    "name": "Take Quiz",
+    "name": "Take Quiz shows topic selection",
     "steps": [
       {
+        "send": { "callback": "quiz:start" },
         "expect": [
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Begin a topic-specific quiz"
+              "text": "🧠 Pick a topic for your quiz:"
             }
           }
-        ],
-        "send": {
-          "callback": "quiz:start"
-        }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "selecting a quiz topic shows first question",
+    "steps": [
+      {
+        "send": { "callback": "quiz:start" },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "🧠 Pick a topic for your quiz:" } }
+        ]
+      },
+      {
+        "send": { "callback": "quiz:topic:account" },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "Question 1 of 2\n\nWhat does two-factor authentication add to your account security?" } }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "answering a quiz question shows explanation",
+    "steps": [
+      {
+        "send": { "callback": "quiz:start" },
+        "expect": [
+          { "method": "sendMessage" }
+        ]
+      },
+      {
+        "send": { "callback": "quiz:topic:account" },
+        "expect": [
+          { "method": "sendMessage" }
+        ]
+      },
+      {
+        "send": { "callback": "quiz:ans:0:1" },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "✅ Correct!\n\n💡 2FA combines something you know (password) with something you have (your phone), making it much harder for attackers to break in." } }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "completing quiz shows results",
+    "steps": [
+      {
+        "send": { "callback": "quiz:start" },
+        "expect": [
+          { "method": "sendMessage" }
+        ]
+      },
+      {
+        "send": { "callback": "quiz:topic:account" },
+        "expect": [
+          { "method": "sendMessage" }
+        ]
+      },
+      {
+        "send": { "callback": "quiz:ans:0:1" },
+        "expect": [
+          { "method": "sendMessage" }
+        ]
+      },
+      {
+        "send": { "callback": "quiz:next:1" },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "Question 2 of 2 • Score: 1/1\n\nHow often should you review which devices are logged into your Facebook account?" } }
+        ]
+      },
+      {
+        "send": { "callback": "quiz:ans:1:2" },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "✅ Correct!\n\n💡 Regularly reviewing logged-in devices helps you spot unauthorized access early and remove it before damage is done." } }
+        ]
+      },
+      {
+        "send": { "callback": "quiz:results" },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "Quiz complete!\n\nYour score: 2/2 (100%)\n\n🎉 Excellent! You really know your security stuff!" } }
+        ]
       }
     ]
   }

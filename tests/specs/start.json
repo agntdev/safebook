@@ -1,14 +1,50 @@
 [
   {
-    "name": "/start replies with the welcome + main menu",
+    "name": "/start shows welcome and onboarding consent",
     "steps": [
       {
         "send": { "text": "/start" },
         "expect": [
           {
             "method": "sendMessage",
-            "payload": { "text": "👋 Welcome! Tap a button below to get started." }
+            "payload": {
+              "text": "👋 Welcome to Facebook Security Educator!\n\nI'll help you keep your Facebook account safe with security tips, interactive quizzes, and daily lessons.\n\nBefore we begin — would you like me to track your quiz scores and learning streak?\n\nThis helps you see your progress over time. You can change this anytime."
+            }
           }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "accepting onboarding consent shows main menu",
+    "steps": [
+      {
+        "send": { "text": "/start" },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "👋 Welcome to Facebook Security Educator!\n\nI'll help you keep your Facebook account safe with security tips, interactive quizzes, and daily lessons.\n\nBefore we begin — would you like me to track your quiz scores and learning streak?\n\nThis helps you see your progress over time. You can change this anytime." } }
+        ]
+      },
+      {
+        "send": { "callback": "onboarding:yes" },
+        "expect": [
+          { "method": "editMessageText", "payload": { "text": "Great! I'll track your progress so you can see how much you're learning.\n\nTap a button below to get started." } }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "declining onboarding shows main menu without tracking",
+    "steps": [
+      {
+        "send": { "text": "/start" },
+        "expect": [
+          { "method": "sendMessage" }
+        ]
+      },
+      {
+        "send": { "callback": "onboarding:no" },
+        "expect": [
+          { "method": "editMessageText", "payload": { "text": "No problem! You can still browse tips and take quizzes — I just won't save your scores.\n\nTap a button below to get started." } }
         ]
       }
     ]

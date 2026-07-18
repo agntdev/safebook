@@ -1,19 +1,67 @@
 [
   {
-    "name": "Manage Reminders",
+    "name": "Manage Reminders shows current status",
     "steps": [
       {
+        "send": { "callback": "reminders:settings" },
         "expect": [
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Enable/disable daily security lessons"
+              "text": "⏸️ Daily security reminders are OFF.\n\nTurn on reminders to get a daily security tip and quiz question delivered to you."
             }
           }
-        ],
-        "send": {
-          "callback": "reminders:settings"
-        }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "enabling reminders updates status",
+    "steps": [
+      {
+        "send": { "callback": "reminders:settings" },
+        "expect": [
+          { "method": "sendMessage" }
+        ]
+      },
+      {
+        "send": { "callback": "reminders:on" },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": {
+              "text": "✅ Daily security reminders are now ON.\n\nYou'll get a security tip and quiz question each day to keep your knowledge fresh."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "disabling reminders updates status",
+    "steps": [
+      {
+        "send": { "callback": "reminders:settings" },
+        "expect": [
+          { "method": "sendMessage" }
+        ]
+      },
+      {
+        "send": { "callback": "reminders:on" },
+        "expect": [
+          { "method": "editMessageText" }
+        ]
+      },
+      {
+        "send": { "callback": "reminders:off" },
+        "expect": [
+          {
+            "method": "editMessageText",
+            "payload": {
+              "text": "⏸️ Daily security reminders are now OFF.\n\nYou can turn them back on anytime from the menu."
+            }
+          }
+        ]
       }
     ]
   }

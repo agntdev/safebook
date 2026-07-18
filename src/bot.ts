@@ -2,11 +2,18 @@ import { Composer } from "grammy";
 import { readdirSync } from "node:fs";
 import { createBot, type BotContext } from "./toolkit/index.js";
 
-// The per-chat session shape (ephemeral conversation state only). Extend as the
-// bot grows. Durable domain data must NOT live here — use the toolkit's
-// persistent storage (see AGENTS.md).
 export interface Session {
-  // example: step?: "awaiting_amount";
+  step: string;
+  onboardingConsent?: boolean;
+  quizTopic?: string;
+  quizQuestionIndex?: number;
+  quizScore?: number;
+  quizTotal?: number;
+  quizAnswers?: Record<number, number>;
+  totalQuizzes?: number;
+  bestScore?: number;
+  lessonStreak?: number;
+  remindersEnabled?: boolean;
 }
 
 export type Ctx = BotContext<Session>;
@@ -19,7 +26,7 @@ export type Ctx = BotContext<Session>;
  */
 export async function buildBot(token: string) {
   const bot = createBot<Session>(token, {
-    initial: () => ({}),
+    initial: () => ({ step: "idle" }),
   });
 
   const dir = new URL("./handlers/", import.meta.url);
