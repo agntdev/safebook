@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Take Quiz",
+    "steps": [
+      {
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "Begin a topic-specific quiz"
+            }
+          }
+        ],
+        "send": {
+          "callback": "quiz:start"
+        }
+      }
+    ]
+  }
+]
