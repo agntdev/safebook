@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Browse Tips",
+    "steps": [
+      {
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "Select tips by category (Account, Phishing, Passwords, etc.)"
+            }
+          }
+        ],
+        "send": {
+          "callback": "tip:categories"
+        }
+      }
+    ]
+  }
+]
