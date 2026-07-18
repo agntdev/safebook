@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Random Tip",
+    "steps": [
+      {
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "Receive a random security tip"
+            }
+          }
+        ],
+        "send": {
+          "callback": "tip:random"
+        }
+      }
+    ]
+  }
+]
